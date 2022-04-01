@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
@@ -18,6 +19,11 @@ const dataset = [
 ]
 
 const Home: NextPage = () => {
+  const [renderChart, setRenderChart] = useState(false)
+  useEffect(() => {
+    setRenderChart(true)
+  }, [])
+
   return (
     <div className={styles.container}>
       <Head>
@@ -27,7 +33,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <Barchart data={dataset}></Barchart>
+        {renderChart && <Barchart data={dataset} />}
       </main>
     </div>
   )

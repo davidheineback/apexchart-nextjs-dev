@@ -7,13 +7,17 @@ interface ChartData {
   value: number
 }
 
-function Barchart({ data = [] }: { data: ChartData[] }) {
+type Easing = "linear" | "easein" | "easeout" | "easeinout" | undefined
+const easyingType: Easing = "linear"
+
+
+function Barchart ({ data = [] }: { data: ChartData[] }) {
   const [options, setOptions] = React.useState({
     chart: {
       id: 'apexchart-example',
       animations: {
         enabled: true,
-        easing: undefined,
+        easing: easyingType,
         speed: 800,
         animateGradually: {
           enabled: true,
@@ -37,21 +41,6 @@ function Barchart({ data = [] }: { data: ChartData[] }) {
     },
   ])
 
-  React.useEffect(() => {
-    setOptions({
-      ...options,
-      xaxis: {
-        categories: data.map((d) => d.label),
-      },
-    })
-
-    setSeries([
-      {
-        name: 'series-1',
-        data: data.map((d) => d.value),
-      },
-    ])
-  }, [data, options])
 
   return (
     <Chart
