@@ -1,17 +1,24 @@
-import { AppProps } from 'next/app'
 import React from 'react'
 import Chart from 'react-apexcharts'
+import moment from 'moment'
+import { GlobalStateContext } from '../components/GlobalState'
 
 interface ChartData {
   label: string
   value: number
 }
 
-type Easing = "linear" | "easein" | "easeout" | "easeinout" | undefined
-const easyingType: Easing = "linear"
+type Easing = 'linear' | 'easein' | 'easeout' | 'easeinout' | undefined
+const easyingType: Easing = 'linear'
 
+function Barchart({ data = [] }: { data: ChartData[] }) {
+  const { dateFrom, dateTo } = React.useContext(GlobalStateContext)
 
-function Barchart ({ data = [] }: { data: ChartData[] }) {
+  data = data.filter(({ label }) => {
+    console.log(label)
+    return moment(label, 'YYYY/MM/DD').isBetween(dateFrom, dateTo)
+  })
+
   const [options, setOptions] = React.useState({
     chart: {
       id: 'apexchart-example',
@@ -40,7 +47,6 @@ function Barchart ({ data = [] }: { data: ChartData[] }) {
       data: data.map((d) => d.value),
     },
   ])
-
 
   return (
     <Chart

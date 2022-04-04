@@ -3,19 +3,21 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import dynamic from 'next/dynamic'
+import DatePicker from '../components/DatePicker'
 
 const Barchart = dynamic(() => import('../components/Barchart'), { ssr: false })
 
 const dataset = [
-  { label: '1991', value: 30 },
-  { label: '1992', value: 40 },
-  { label: '1993', value: 35 },
-  { label: '1994', value: 50 },
-  { label: '1995', value: 49 },
-  { label: '1996', value: 60 },
-  { label: '1997', value: 70 },
-  { label: '1998', value: 91 },
-  { label: '1999', value: 125 },
+  { label: '2013/01/01', value: 35 },
+  { label: '2014/01/01', value: 50 },
+  { label: '2015/01/01', value: 49 },
+  { label: '2016/01/01', value: 60 },
+  { label: '2017/01/01', value: 70 },
+  { label: '2018/01/01', value: 91 },
+  { label: '2019/01/01', value: 125 },
+  { label: '2021/01/01', value: 30 },
+  { label: '2021/06/01', value: 80 },
+  { label: '2022/01/01', value: 40 },
 ]
 
 const Home: NextPage = () => {
@@ -33,6 +35,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
+        <DatePicker></DatePicker>
         {renderChart && <Barchart data={dataset} />}
       </main>
     </div>
