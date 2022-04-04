@@ -3,7 +3,7 @@ import Chart from 'react-apexcharts'
 import moment from 'moment'
 import { GlobalStateContext } from '../components/GlobalState'
 
-interface ChartData {
+export interface ChartData {
   label: string
   value: number
 }
@@ -11,7 +11,7 @@ interface ChartData {
 type Easing = 'linear' | 'easein' | 'easeout' | 'easeinout' | undefined
 const easyingType: Easing = 'linear'
 
-function Barchart ({ data = [] }: { data: ChartData[] }) {
+function Barchart({ data = [] }: { data: ChartData[] }) {
   const { dateFrom, dateTo } = useContext(GlobalStateContext)
   const [chartData, setChartData] = useState<ChartData[]>(data)
 
@@ -50,29 +50,32 @@ function Barchart ({ data = [] }: { data: ChartData[] }) {
       const toDateString = moment(dateTo).format('YYYY/MM/DD')
 
       const newData = data.filter(({ label }) => {
-        return moment(label, 'YYYY/MM/DD').isBetween(fromDateString, toDateString)
+        return moment(label, 'YYYY/MM/DD').isBetween(
+          fromDateString,
+          toDateString
+        )
       })
       setChartData(newData)
     }
-
   }, [data, dateFrom, dateTo])
 
   useEffect(() => {
-    setSeries([{
-      name: 'series-1',
-      data: chartData.map((d) => d.value),
-    }])
+    setSeries([
+      {
+        name: 'series-1',
+        data: chartData.map((d) => d.value),
+      },
+    ])
 
     setOptions((prevOptions) => {
       return {
         ...prevOptions,
         xaxis: {
           categories: chartData.map((d) => d.label),
-        }
+        },
       }
     })
   }, [chartData])
-
 
   return (
     <Chart

@@ -3,24 +3,25 @@ import TextField from '@mui/material/TextField'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import { GlobalStateContext } from './GlobalState'
-import DatePicker from '@mui/lab/DatePicker';
+import DatePicker from '@mui/lab/DatePicker'
 
-export default function DatePickerRange () {
-  const [valueFromDate, setValueFromDate] = React.useState(null);
-  const [valueToDate, setValueToDate] = React.useState(null);
+export default function DatePickerRange() {
+  const [valueFromDate, setValueFromDate] = React.useState(null)
+  const [valueToDate, setValueToDate] = React.useState(null)
 
-  const { setDateFrom, setDateTo } = React.useContext(GlobalStateContext)
+  const { dateFrom, dateTo, setDateFrom, setDateTo } =
+    React.useContext(GlobalStateContext)
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DatePicker
         label="From date"
-        value={valueFromDate}
+        value={valueFromDate || dateFrom}
         onChange={(newValue: any) => {
           if (newValue) {
             setDateFrom(newValue)
           }
-          setValueFromDate(newValue);
+          setValueFromDate(newValue)
         }}
         onClose={() => {
           setValueFromDate(valueFromDate)
@@ -30,12 +31,12 @@ export default function DatePickerRange () {
       />
       <DatePicker
         label="To date"
-        value={valueToDate}
+        value={valueToDate || dateTo}
         onChange={(newValue: any) => {
           if (newValue) {
             setDateTo(newValue)
           }
-          setValueToDate(newValue);
+          setValueToDate(newValue)
         }}
         onClose={() => {
           setValueToDate(valueToDate)
@@ -43,7 +44,6 @@ export default function DatePickerRange () {
         }}
         renderInput={(params: any) => <TextField {...params} />}
       />
-
     </LocalizationProvider>
   )
 }
