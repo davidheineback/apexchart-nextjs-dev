@@ -2,7 +2,6 @@ import * as React from 'react'
 import TextField from '@mui/material/TextField'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
-import Box from '@mui/material/Box'
 import { GlobalStateContext } from './GlobalState'
 import DatePicker from '@mui/lab/DatePicker';
 
@@ -25,6 +24,7 @@ export default function DatePickerRange () {
         }}
         onClose={() => {
           setValueFromDate(valueFromDate)
+          valueFromDate && setDateFrom(valueFromDate)
         }}
         renderInput={(params: any) => <TextField {...params} />}
       />
@@ -39,6 +39,7 @@ export default function DatePickerRange () {
         }}
         onClose={() => {
           setValueToDate(valueToDate)
+          valueToDate && setDateTo(valueToDate)
         }}
         renderInput={(params: any) => <TextField {...params} />}
       />
