@@ -46,8 +46,10 @@ function Barchart({ data = [] }: { data: ChartData[] }) {
 
   useEffect(() => {
     if (dateFrom && dateTo) {
-      const fromDateString = moment(dateFrom).format('YYYY/MM/DD')
-      const toDateString = moment(dateTo).format('YYYY/MM/DD')
+      const fromDateString = moment(dateFrom)
+        .subtract(1, 'days')
+        .format('YYYY/MM/DD')
+      const toDateString = moment(dateTo).add(1, 'days').format('YYYY/MM/DD')
 
       const newData = data.filter(({ label }) => {
         return moment(label, 'YYYY/MM/DD').isBetween(
