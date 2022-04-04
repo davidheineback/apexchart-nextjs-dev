@@ -3,7 +3,8 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import dynamic from 'next/dynamic'
-import DatePicker from '../components/DatePicker'
+import DatePickerRange from '../components/DatePickerRange'
+
 
 const Barchart = dynamic(() => import('../components/Barchart'), { ssr: false })
 
@@ -35,7 +36,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <DatePicker></DatePicker>
+        <DatePickerRange></DatePickerRange>
         {renderChart && <Barchart data={dataset} />}
       </main>
     </div>

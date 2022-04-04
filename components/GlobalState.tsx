@@ -4,8 +4,8 @@ import moment from 'moment'
 const initalState: StateInterface = {
   dateFrom: null,
   dateTo: null,
-  setDateFrom: () => undefined,
-  setDateTo: () => undefined,
+  setDateFrom: (value: Date) => undefined,
+  setDateTo: (value: Date) => undefined,
 }
 
 export const GlobalStateContext = React.createContext(initalState)
@@ -13,11 +13,11 @@ export const GlobalStateContext = React.createContext(initalState)
 interface StateInterface {
   dateFrom: Date | null
   dateTo: Date | null
-  setDateFrom: (date: Date) => void
-  setDateTo: (date: Date) => void
+  setDateFrom: (value: Date) => void
+  setDateTo: (value: Date) => void
 }
 
-export default function GlobalState({
+export default function GlobalState ({
   children,
 }: {
   children: React.ReactNode

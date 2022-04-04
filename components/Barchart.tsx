@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Chart from 'react-apexcharts'
 import moment from 'moment'
 import { GlobalStateContext } from '../components/GlobalState'
+
 
 interface ChartData {
   label: string
@@ -11,13 +12,38 @@ interface ChartData {
 type Easing = 'linear' | 'easein' | 'easeout' | 'easeinout' | undefined
 const easyingType: Easing = 'linear'
 
-function Barchart({ data = [] }: { data: ChartData[] }) {
+function Barchart ({ data = [] }: { data: ChartData[] }) {
   const { dateFrom, dateTo } = React.useContext(GlobalStateContext)
+  const [chartData, setChartData] = React.useState<ChartData[]>(data)
 
-  data = data.filter(({ label }) => {
-    console.log(label)
-    return moment(label, 'YYYY/MM/DD').isBetween(dateFrom, dateTo)
-  })
+
+  useEffect(() => {
+    if (dateFrom && dateTo) {
+      const fromDateString = moment(dateFrom).format('YYYY/MM/DD')
+      const toDateString = moment(dateTo).format('YYYY/MM/DD')
+
+      const newData = data.filter(({ label }) => {
+        return moment(label, 'YYYY/MM/DD').isBetween(fromDateString, toDateString)
+      })
+      setChartData(newData)
+    }
+
+  }, [data, dateFrom, dateTo])
+
+  useEffect(() => {
+    ApexCharts.exec('apexchart-example', 'updateSeries', [{
+      data: chartData.map((d) => d.value),
+    }])
+
+    ApexCharts.exec('apexchart-example', 'updateOptions', {
+      xaxis: {
+        categories: chartData.map((d) => d.label),
+      }
+    })
+  }, [chartData])
+
+
+
 
   const [options, setOptions] = React.useState({
     chart: {
@@ -37,16 +63,17 @@ function Barchart({ data = [] }: { data: ChartData[] }) {
       },
     },
     xaxis: {
-      categories: data.map((d) => d.label),
+      categories: chartData.map((d) => d.label),
     },
   })
 
   const [series, setSeries] = React.useState([
     {
       name: 'series-1',
-      data: data.map((d) => d.value),
+      data: chartData.map((d) => d.value),
     },
   ])
+
 
   return (
     <Chart
